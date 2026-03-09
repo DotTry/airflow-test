@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.41.2.15936",
+      "templateHash": "8782751720494968885"
+    }
+  },
+  "parameters": {
+    "accessTier": {
+      "type": "string",
+      "defaultValue": "Hot"
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "[format('stg{0}', uniqueString(resourceGroup().id))]"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-01-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "[parameters('accessTier')]",
+        "publicNetworkAccess": "Enabled",
+        "minimumTlsVersion": "TLS1_2"
+      }
+    }
+  ]
+}
